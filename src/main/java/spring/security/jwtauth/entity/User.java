@@ -10,12 +10,12 @@ import java.util.UUID;
 //Data annotation will produces getter and setter
 @Data
 @Entity
-@Table(name = "jwt_auth_table")
+@Table(name = "jwt_auth_flyway")
 public class User implements Serializable {
 
     private static final long serialVersionUID = -6640485728691293342L;
 
-    //unique id of every user
+    //unique id (UUID) of every user
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false, unique = true)
@@ -31,3 +31,4 @@ public class User implements Serializable {
     private Date createdAt;
 
 }
+
