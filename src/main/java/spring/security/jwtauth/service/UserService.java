@@ -7,12 +7,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import spring.security.jwtauth.dto.response.UserResponseDTO;
 import spring.security.jwtauth.entity.User;
 import spring.security.jwtauth.repository.UserRepo;
 import spring.security.jwtauth.utility.ResponseUtil;
 import spring.security.jwtauth.dto.request.UserRequestDTO;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -22,6 +25,7 @@ public class UserService {
     private UserRepo userRepo;
     private PasswordEncoder passwordEncoder;
     private ResponseUtil responseUtil;
+    private List<UserResponseDTO> userResponseDTO;
 
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
@@ -60,6 +64,10 @@ public class UserService {
     }
 
     public ResponseEntity<?> getAllUsers(){
-        return ResponseEntity.ok(userRepo.findAll());
+        var users = userRepo.findAll();
+        userResponseDTO = new ArrayList<>();
+        for (User user: users)
+            userResponseDTO.add(new UserResponseDTO(user.getUuid(),user.getEmailId(),user.getCreatedAt()));
+        return ResponseEntity.ok(userResponseDTO);
     }
 }
