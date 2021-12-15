@@ -1,4 +1,4 @@
-package spring.security.jwtauth.requestDTO;
+package spring.security.jwtauth.dto.request;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import spring.security.jwtauth.entity.User;
 import spring.security.jwtauth.repository.UserRepo;
 import spring.security.jwtauth.utility.ResponseUtil;
-import spring.security.jwtauth.requestDTO.UserRequestDTO;
+import spring.security.jwtauth.dto.request.UserRequestDTO;
 
 import java.util.Date;
 import java.util.UUID;
@@ -57,5 +57,9 @@ public class UserService {
             return responseUtil.loginSuccessResponse(user);
         }
         throw new UsernameNotFoundException("Bad credentials");
+    }
+
+    public ResponseEntity<?> getAllUsers(){
+        return ResponseEntity.ok(userRepo.findAll());
     }
 }
