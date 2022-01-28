@@ -7,11 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import spring.security.jwtauth.dto.request.UserRequestDTO;
 import spring.security.jwtauth.dto.response.UserResponseDTO;
 import spring.security.jwtauth.entity.User;
 import spring.security.jwtauth.repository.UserRepo;
 import spring.security.jwtauth.utility.ResponseUtil;
-import spring.security.jwtauth.dto.request.UserRequestDTO;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,7 +39,7 @@ public class UserService {
             user.setPassword(customUserDetailsService.passwordEncoder().encode(userRequest.getPassword()));
             user.setUuid(UUID.randomUUID());
             user.setCreatedAt(new Date());
-            user =  userRepo.save(user);
+            userRepo.save(user);
 
             if(user != null){
                return responseUtil.accountCreationResponse(user);
@@ -58,8 +58,10 @@ public class UserService {
         var user = userRepo.findByEmailId(userRequest.getEmailId())
                 .orElseThrow(() -> new UsernameNotFoundException("Bad Credentials"));
         if(passwordEncoder.matches(userRequest.getPassword(), user.getPassword())){
+            System.out.println("Logged In successfully");
             return responseUtil.loginSuccessResponse(user);
         }
+        System.out.println("Invalid username or password");
         throw new UsernameNotFoundException("Bad credentials");
     }
 

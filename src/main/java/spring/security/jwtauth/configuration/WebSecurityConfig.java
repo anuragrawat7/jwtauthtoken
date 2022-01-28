@@ -7,10 +7,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import spring.security.jwtauth.entity.ApiPath;
 import spring.security.jwtauth.security.filter.JwtAuthFilter;
 import spring.security.jwtauth.service.CustomUserDetailsService;
 
 import javax.servlet.Filter;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -29,7 +31,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
-                .authorizeRequests().antMatchers("/user/**").permitAll().anyRequest().authenticated()
+                .authorizeRequests().antMatchers(List.of(ApiPath.values()).stream().map(apiPath -> apiPath.getPath())
+                        .toArray(String[]::new)).permitAll().anyRequest().authenticated()
                 .and().addFilterBefore((Filter) jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }

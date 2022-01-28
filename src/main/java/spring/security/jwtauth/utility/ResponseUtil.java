@@ -23,7 +23,7 @@ public class ResponseUtil {
         final var response = new HashMap<>();
         try {
             response.put("status", HttpStatus.OK.value());
-            response.put("message", "You Can use Your Credentials To Login Now");
+            response.put("message", "You can use Your Credentials To Login Now");
             headers.set("Authorization", "Bearer "+ jwtUtil.generateToken(user));
         } catch (Exception exception) {
             log.error("Failed To Generate Valid JSON {}", exception);

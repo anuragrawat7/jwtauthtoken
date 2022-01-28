@@ -1,5 +1,6 @@
 package spring.security.jwtauth.controller;
 
+import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,13 +23,13 @@ public class AuthenticationController {
 
     //API to login and get Access Token
     @GetMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> userLogin(@RequestBody(required = true) UserRequestDTO userRequest){
+    public ResponseEntity<?> userLogin(@RequestBody UserRequestDTO userRequest){
         return userService.login(userRequest);
     }
 
     //API to get All users using Authentication Token
     @GetMapping(value = "/getUsers", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getAllUsers(@RequestHeader(name = "Authorization") String headers){
+    public ResponseEntity<?> getAllUsers(@Parameter(hidden = true) @RequestHeader(name = "Authorization") String headers){
         return userService.getAllUsers();
     }
 
